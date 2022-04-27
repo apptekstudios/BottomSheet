@@ -19,15 +19,15 @@ import SwiftUI
 ///   - onDismiss: The closure to execute when dismissing the sheet.
 @available(iOS 15, *)
 public struct BottomSheetConfig {
-    var detents: [UISheetPresentationController.Detent]
-    var largestUndimmedDetentIdentifier: UISheetPresentationController.Detent.Identifier?
-    var prefersGrabberVisible: Bool
-    var prefersScrollingExpandsWhenScrolledToEdge: Bool
-    var prefersEdgeAttachedInCompactHeight: Bool
-    var selectedDetentBinding: Binding<UISheetPresentationController.Detent.Identifier>?
-    var widthFollowsPreferredContentSizeWhenEdgeAttached: Bool
-    var isModalInPresentation: Bool
-    var onDismiss: (() -> Void)?
+    public var detents: [UISheetPresentationController.Detent]
+    public var largestUndimmedDetentIdentifier: UISheetPresentationController.Detent.Identifier?
+    public var prefersGrabberVisible: Bool
+    public var prefersScrollingExpandsWhenScrolledToEdge: Bool
+    public var prefersEdgeAttachedInCompactHeight: Bool
+    public var selectedDetentBinding: Binding<UISheetPresentationController.Detent.Identifier>?
+    public var widthFollowsPreferredContentSizeWhenEdgeAttached: Bool
+    public var isModalInPresentation: Bool
+    public var onDismiss: (() -> Void)?
     
     public init(
         detents: [UISheetPresentationController.Detent] = [.medium(), .large()],
