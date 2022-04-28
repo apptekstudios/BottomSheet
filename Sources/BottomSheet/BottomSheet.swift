@@ -49,6 +49,7 @@ struct BottomSheetPresenter<T, ContentView: View>: UIViewControllerRepresentable
                         config: parent.config,
                         onDismiss: {
                             parent.isPresented = false
+                            parent.config.onDismiss?()
                         },
                         content: parent.content(item)
                     )
@@ -56,9 +57,11 @@ struct BottomSheetPresenter<T, ContentView: View>: UIViewControllerRepresentable
                     self.controller = controller
                 }
             } else {
+                if presenter?.presentedViewController == controller {
+                    parent.config.onDismiss?()
+                    presenter?.dismiss(animated: true)
+                }
                 controller = nil
-                parent.config.onDismiss?()
-                presenter?.dismiss(animated: true)
             }
         }
     }
