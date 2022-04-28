@@ -31,6 +31,17 @@ class BottomSheetViewController<Content: View>: UIViewController, UISheetPresent
 
         super.init(nibName: nil, bundle: nil)
         self.isModalInPresentation = isModalInPresentation
+        modalPresentationStyle = .formSheet
+        if let presentationController = presentationController as? UISheetPresentationController {
+            presentationController.detents = config.detents
+            presentationController.largestUndimmedDetentIdentifier = config.largestUndimmedDetentIdentifier
+            presentationController.prefersGrabberVisible = config.prefersGrabberVisible
+            presentationController.prefersScrollingExpandsWhenScrolledToEdge = config.prefersScrollingExpandsWhenScrolledToEdge
+            presentationController.prefersEdgeAttachedInCompactHeight = config.prefersEdgeAttachedInCompactHeight
+            presentationController.selectedDetentIdentifier = config.selectedDetentBinding?.wrappedValue
+            presentationController.widthFollowsPreferredContentSizeWhenEdgeAttached = config.widthFollowsPreferredContentSizeWhenEdgeAttached
+            presentationController.delegate = self
+        }
     }
 
     required init?(coder: NSCoder) {
@@ -51,17 +62,7 @@ class BottomSheetViewController<Content: View>: UIViewController, UISheetPresent
             contentView.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             contentView.view.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
-
-        if let presentationController = presentationController as? UISheetPresentationController {
-            presentationController.detents = config.detents
-            presentationController.largestUndimmedDetentIdentifier = config.largestUndimmedDetentIdentifier
-            presentationController.prefersGrabberVisible = config.prefersGrabberVisible
-            presentationController.prefersScrollingExpandsWhenScrolledToEdge = config.prefersScrollingExpandsWhenScrolledToEdge
-            presentationController.prefersEdgeAttachedInCompactHeight = config.prefersEdgeAttachedInCompactHeight
-            presentationController.selectedDetentIdentifier = config.selectedDetentBinding?.wrappedValue
-            presentationController.widthFollowsPreferredContentSizeWhenEdgeAttached = config.widthFollowsPreferredContentSizeWhenEdgeAttached
-            presentationController.delegate = self
-        }
+        
     }
 
     override func viewDidDisappear(_ animated: Bool) {

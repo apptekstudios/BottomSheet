@@ -32,7 +32,7 @@ public struct BottomSheetConfig {
     public init(
         detents: [UISheetPresentationController.Detent] = [.medium(), .large()],
         largestUndimmedDetentIdentifier: UISheetPresentationController.Detent.Identifier? = nil,
-        prefersGrabberVisible: Bool = true,
+        prefersGrabberVisible: Bool = false,
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
         selectedDetentBinding: Binding<UISheetPresentationController.Detent.Identifier>? = nil,

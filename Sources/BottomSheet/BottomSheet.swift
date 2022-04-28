@@ -39,9 +39,11 @@ struct BottomSheetPresenter<T, ContentView: View>: UIViewControllerRepresentable
         var presenter: UIViewController?
         var controller: BottomSheetViewController<ContentView>?
         
+        private var isCurrentlyAnimatingPresentation: Bool = false
+        
         func updateState(_ parent: Parent) {
-            if parent.isPresented, let item = parent.itemBinding {
-                if let controller = controller, presenter?.presentedViewController == controller {
+            if parent.isPresented, let item = parent.itemBinding, presenter?.view.window != nil {
+                if let controller = controller, presenter?.presentedViewController == controller || isCurrentlyAnimatingPresentation {
                     controller.update(content: parent.content(item), config: parent.config)
                 } else {
                     let controller = BottomSheetViewController(
@@ -53,13 +55,20 @@ struct BottomSheetPresenter<T, ContentView: View>: UIViewControllerRepresentable
                         },
                         content: parent.content(item)
                     )
-                    presenter?.present(controller, animated: true)
                     self.controller = controller
+                    
+                    // Don't try to present over something else
+                    if presenter?.presentedViewController == nil {
+                        self.isCurrentlyAnimatingPresentation = true
+                            presenter?.present(controller, animated: true) {
+                                self.isCurrentlyAnimatingPresentation = false
+                        }
+                    }
                 }
             } else {
-                if presenter?.presentedViewController == controller {
+                if controller != nil, presenter?.presentedViewController == controller {
                     parent.config.onDismiss?()
-                    presenter?.dismiss(animated: true)
+                    controller?.dismiss(animated: true)
                 }
                 controller = nil
             }
